@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 import WeeklyRevenue from '@/components/weeklyRevenue/weeklyRevenue';
 import Banner from '@/components/banner/banner';
 import BannerPlan from '../components/banner/bannerPlan';
+import LoginPage from "@/components/view/loginPage";
+import {useAccount} from "wagmi";
 
 type TableDataObj = {
 	address: string;
@@ -185,7 +187,7 @@ export const barChartOptionsConsumption: any = {
 
 const Dashboad: NextPage = () => {
 
-
+	const { address } = useAccount();
 
 	const [tableDataComplexMap,setTableDataComplexMap] = useState(
 		tableDataComplexs.map((output) => {
@@ -211,28 +213,32 @@ const Dashboad: NextPage = () => {
 	},[])
 
     return (
-        <DashboadLayout >
-            <br></br>
-            <br></br>
-            <br></br>
-			{
-				tableDataComplexs.length !== 0 ?(
-					<SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px' mb='20px'>
-						{tableDataComplexMap}
-						{weeklyReport}
-					</SimpleGrid>
-				):(
-					<>
-						<SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap='20px' mb='20px'>
-							<Banner />
+		<>
+			{ address === undefined && <LoginPage/> }
+			{ address !== undefined && (<DashboadLayout >
+				<br></br>
+				<br></br>
+				<br></br>
+				{
+					tableDataComplexs.length !== 0 ?(
+						<SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px' mb='20px'>
+							{tableDataComplexMap}
+							{weeklyReport}
 						</SimpleGrid>
-						<SimpleGrid columns={{ base: 2, md: 2, xl: 2 }} gap='20px' mb='20px'>
-							<BannerPlan />
-						</SimpleGrid>
-					</>
-				)
-			}
-        </DashboadLayout>
+					):(
+						<>
+							<SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap='20px' mb='20px'>
+								<Banner />
+							</SimpleGrid>
+							<SimpleGrid columns={{ base: 2, md: 2, xl: 2 }} gap='20px' mb='20px'>
+								<BannerPlan />
+							</SimpleGrid>
+						</>
+					)
+				}
+			</DashboadLayout>
+			)}
+		</>
     )
 }
 
