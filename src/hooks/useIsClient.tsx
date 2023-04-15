@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
 
 export const useIsClient = () => {
-    const [isClient, setIsClient] = useState<boolean>(false)
+  const [isClient, setIsClient] = useState<boolean>(false);
 
-    useEffect(() => {
-        if (typeof window !== 'undefined') setIsClient(true)
-    }, [])
+  useEffect(() => {
+    if (typeof window !== "undefined") setIsClient(true);
+  }, []);
 
-    return { isClient }
-}
+  return { isClient };
+};

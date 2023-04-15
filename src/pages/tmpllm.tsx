@@ -1,6 +1,6 @@
-import { NextPage } from 'next'
-import { ApplyPlanModal } from '@/components/sdk/ApplyPlanModal'
-import { AdminLayout } from '@/layouts/admin'
+import { NextPage } from "next";
+import { ApplyPlanModal } from "@/components/sdk/ApplyPlanModal";
+import { AdminLayout } from "@/layouts/admin";
 
 const Home: NextPage = () => {
   return (
@@ -8,7 +8,7 @@ const Home: NextPage = () => {
       <ApplyPlanModal mode="wallet" />
       <></>
     </AdminLayout>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
