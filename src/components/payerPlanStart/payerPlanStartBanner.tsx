@@ -2,13 +2,12 @@ import Card from "@/components/card/Card";
 import { Box, Button, Flex, Text, Icon, Menu } from "@chakra-ui/react";
 import IconBox from "@/components/payerPlan/iconBox";
 import Image from "next/image";
-import { SubscriptionManager } from "@/ethers-contracts";
-import PaymentStructOutput = SubscriptionManager.PaymentStructOutput;
-import PlanStructOutput = SubscriptionManager.PlanStructOutput;
+import { Plan } from "@/model/plan";
+import { Payment } from "@/model/payment";
 
 export default function PayerPlanStartBanner(props: {
-  payment: PaymentStructOutput;
-  plan: PlanStructOutput;
+  payment: Payment;
+  plan: Plan;
 }) {
   const statusImg = props.payment.status ? "/img/check.png" : "/img/cancel.png";
   return (

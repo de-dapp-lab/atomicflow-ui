@@ -1,12 +1,16 @@
 import { useAccount } from "wagmi";
 import { useContract } from "@/hooks/useContract";
 import { useEffect, useState } from "react";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
+import { Payment } from "@/model/payment";
+import { Plan } from "@/model/plan";
 
 export const usePayerPayments = () => {
   const { address } = useAccount();
   const { subscriptionManager } = useContract();
-  const [payerPayments, setPayerPayments] = useState([]);
+  const [payerPayments, setPayerPayments] = useState<
+    { payment: Payment; plan: Plan }[]
+  >([]);
 
   useEffect(() => {
     if (address === undefined) {
@@ -29,7 +33,9 @@ export const usePayerPayments = () => {
         }
 
         // todo model作りたい
-        payments.push({ payment: payment, plan: plans[i] });
+        const py = { ...payment } as Payment;
+        const pl = { ...plans[i] } as Plan;
+        payments.push({ payment: py, plan: pl });
       }
       setPayerPayments(payments);
     })();
