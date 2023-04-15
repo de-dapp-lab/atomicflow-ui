@@ -56,7 +56,7 @@ export default function SettingPlan(props: {
         }
         const myPlan: PlanStruct = {
             planKey: stringToBigNumberHash(props.planName),
-            amountPerMonth: props.amountPerMonth,
+            amountPerMonth: Math.floor(props.amountPerMonth * 1000),
             receiverWallet: ethers.BigNumber.from(address),
             maxMember: props.maxMember
           };
