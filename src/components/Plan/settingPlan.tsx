@@ -38,10 +38,10 @@ export default function SettingPlan(props: {
 }) {
   const { address, isConnecting, isDisconnected } = useAccount();
 
-  const [isTrial, useIsTrial] = useState(false);
-  const [isSales, useIsSales] = useState(false);
-  const [isDisplayPopular, useIsDisplayPopular] = useState(false);
-  const [isDisplayCustom, useIsDisplayCustom] = useState(false);
+  const [isTrial, setIsTrial] = useState(false);
+  const [isSales, setIsSales] = useState(false);
+  const [isDisplayPopular, setIsDisplayPopular] = useState(false);
+  const [isDisplayCustom, setIsDisplayCustom] = useState(false);
   const { subscriptionManager } = useContract();
 
   const onChangePlanName = (e: any) => {
@@ -59,16 +59,16 @@ export default function SettingPlan(props: {
     props.useAmountPerMonth(e.target.value);
   };
 
-    const onClickSubmit = async () => {
-        if (isDisconnected){
-            return;
-        }
-        const myPlan: PlanStruct = {
-            planKey: stringToBigNumberHash(props.planName),
-            amountPerMonth: Math.floor(props.amountPerMonth * 1000),
-            receiverWallet: ethers.BigNumber.from(address),
-            maxMember: props.maxMember
-          };
+  const onClickSubmit = async () => {
+    if (isDisconnected) {
+      return;
+    }
+    const myPlan: PlanStruct = {
+      planKey: stringToBigNumberHash(props.planName),
+      amountPerMonth: Math.floor(props.amountPerMonth * 1000),
+      receiverWallet: ethers.BigNumber.from(address),
+      maxMember: props.maxMember,
+    };
 
     try {
       await subscriptionManager?.createPlan(myPlan);
@@ -83,19 +83,19 @@ export default function SettingPlan(props: {
 
   // 下見せるため
   const onchangeTrial = () => {
-    useIsTrial(!isTrial);
+    setIsTrial(!isTrial);
   };
 
   const onchangeSales = () => {
-    useIsSales(!isSales);
+    setIsSales(!isSales);
   };
 
   const onchangePopular = () => {
-    useIsDisplayPopular(!isDisplayPopular);
+    setIsDisplayPopular(!isDisplayPopular);
   };
 
   const onchangeCustom = () => {
-    useIsDisplayCustom(!isDisplayCustom);
+    setIsDisplayCustom(!isDisplayCustom);
   };
 
   // 上見せるため

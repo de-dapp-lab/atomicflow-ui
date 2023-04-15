@@ -73,7 +73,7 @@ export default function SelectPlanBanner(props: {
         w="full"
       >
         <Flex justify="stretch">
-          <Image boxSize="80px" objectFit="cover" src="/img/basic-plan.jpg" />
+          <Image objectFit="cover" src="/img/basic-plan.jpg" />
           <Box p={4}>
             <Text color="#2B3674" fontSize="16px" fontWeight="700" mb={1}>
               Basic Plan
@@ -95,7 +95,7 @@ export default function SelectPlanBanner(props: {
         w="full"
       >
         <Flex justify="stretch">
-          <Image boxSize="80px" objectFit="cover" src="/img/pro-plan.jpg" />
+          <Image objectFit="cover" src="/img/pro-plan.jpg" />
           <Box p={4}>
             <Text color="#2B3674" fontSize="16px" fontWeight="700" mb={1}>
               Pro Plan
@@ -119,11 +119,7 @@ export default function SelectPlanBanner(props: {
         w="full"
       >
         <Flex justify="stretch">
-          <Image
-            boxSize="80px"
-            objectFit="cover"
-            src="/img/enterprise-plan.jpg"
-          />
+          <Image objectFit="cover" src="/img/enterprise-plan.jpg" />
           <Box p={4}>
             <Text color="#2B3674" fontSize="16px" fontWeight="700" mb={1}>
               Enterprise Plan

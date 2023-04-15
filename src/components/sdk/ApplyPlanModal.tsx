@@ -1,4 +1,4 @@
-import { CheckIcon } from '@chakra-ui/icons'
+import { CheckIcon } from "@chakra-ui/icons";
 import {
   Text,
   ModalBody,
@@ -19,198 +19,193 @@ import {
   Link,
   Checkbox,
   Center,
-  Input
-} from '@chakra-ui/react'
-import React, { FC, useCallback, useState, useEffect } from 'react'
-import {ConnectButton} from "@rainbow-me/rainbowkit";
-import { CustomCardProps } from '@/theme/theme';
-import { ethers } from 'ethers';
-import { useContract } from '@/hooks/useContract'
-import {useAccount} from "wagmi";
+  Input,
+} from "@chakra-ui/react";
+import React, { FC, useCallback, useState, useEffect } from "react";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { CustomCardProps } from "@/theme/theme";
+import { ethers } from "ethers";
+import { useContract } from "@/hooks/useContract";
+import { useAccount } from "wagmi";
 import stringToBigNumberHash from "@/hooks/ethers";
 
+const Card = forwardRef<CustomCardProps, "div">((props, ref) => {
+  const { size, variant, ...rest } = props;
+  const styles = useStyleConfig("Card", { size, variant });
 
-const Card = forwardRef<CustomCardProps, 'div'>((props, ref) => {
-  const { size, variant, ...rest } = props
-  const styles = useStyleConfig('Card', { size, variant })
-
-  return <chakra.div ref={ref} __css={styles} {...rest} />
-})
+  return <chakra.div ref={ref} __css={styles} {...rest} />;
+});
 
 type Plan = {
-  id: string
-  name: string
-  fee: number
-  details: string[]
-  isMostPopular: boolean
-  image: string
-  buttonLabel?: string
-  planKey: ethers.BigNumber
-}
+  id: string;
+  name: string;
+  fee: number;
+  details: string[];
+  isMostPopular: boolean;
+  image: string;
+  buttonLabel?: string;
+  planKey: ethers.BigNumber;
+};
 
-type Step = 'select' | 'approve' | 'confirm' | 'applied'
-type Mode = 'wallet' | 'email'
+type Step = "select" | "approve" | "confirm" | "applied";
+type Mode = "wallet" | "email";
 
 type Props = {
-  mode: Mode
-}
+  mode: Mode;
+};
 
 export const ApplyPlanModal: FC<Props> = ({ mode }) => {
-  const [steps, setSteps] = useState<Step>('select')
-  const [selectedPlan, setSelectedPlan] = useState<Plan>()
-  const [checkTerms, setCheckTerms] = useState<boolean>(false)
+  const [steps, setSteps] = useState<Step>("select");
+  const [selectedPlan, setSelectedPlan] = useState<Plan>();
+  const [checkTerms, setCheckTerms] = useState<boolean>(false);
 
-  const { subscriptionManager } = useContract()
+  const { subscriptionManager } = useContract();
   const { address } = useAccount();
 
-
   const handleSelectChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCheckTerms(event.target.checked)
-  }
+    setCheckTerms(event.target.checked);
+  };
 
   const handleSelectedPlan = useCallback((plan: Plan) => {
-    setSelectedPlan(plan)
+    setSelectedPlan(plan);
 
     if (mode == "wallet" && address !== undefined) {
-        setSteps('approve')
+      setSteps("approve");
     } else {
-        setSteps('confirm')
-    } 
-  }, [])
+      setSteps("confirm");
+    }
+  }, []);
 
   const handleClose = useCallback(() => {
-    setSteps('select')
-  }, [])
+    setSteps("select");
+  }, []);
 
   const handleDemo = useCallback(() => {
-    setSteps('applied')
-  }, [])
+    setSteps("applied");
+  }, []);
 
   const handleConfirm = useCallback(() => {
     switch (mode) {
-      case 'wallet':
-        setSteps('approve')
-        break
-      case 'email':
-        setSteps('applied')
-        break
+      case "wallet":
+        setSteps("approve");
+        break;
+      case "email":
+        setSteps("applied");
+        break;
     }
-  }, [mode])
+  }, [mode]);
 
   useEffect(() => {
     if (address && selectedPlan) {
-        setSteps('approve')
+      setSteps("approve");
     }
   }, [address]);
 
-
   const getAllPayment = async () => {
     if (!subscriptionManager) {
-      throw new Error('subscriptionManager instance is required')
+      throw new Error("subscriptionManager instance is required");
     }
 
     try {
       console.log(await subscriptionManager?.getAllPayments());
     } catch (e) {
       if (e instanceof Error) {
-        throw e
+        throw e;
       }
-      console.log(e)
+      console.log(e);
     }
-  }
-
+  };
 
   const handleApproved = async () => {
-
     if (!subscriptionManager) {
-        throw new Error('subscriptionManager instance is required')
+      throw new Error("subscriptionManager instance is required");
     }
 
     try {
-        await subscriptionManager?.startPayment(
-          ethers.BigNumber.from((selectedPlan?.planKey)),
-          ethers.BigNumber.from(address)
-        )
-        window.location.href = 'payer/dashboard';
+      await subscriptionManager?.startPayment(
+        ethers.BigNumber.from(selectedPlan?.planKey),
+        ethers.BigNumber.from(address)
+      );
+      window.location.href = "payer/dashboard";
     } catch (e) {
-        if (e instanceof Error) {
-            throw e
-        }
-        console.log(e)
+      if (e instanceof Error) {
+        throw e;
+      }
+      console.log(e);
     }
-  }
+  };
 
   // Theme
-  const textColorPrimary = useColorModeValue('secondaryGray.900', 'white')
-  const textColorSecondary = 'gray.400'
-  const bg = useColorModeValue('white', 'navy.700')
+  const textColorPrimary = useColorModeValue("secondaryGray.900", "white");
+  const textColorSecondary = "gray.400";
+  const bg = useColorModeValue("white", "navy.700");
   const cardShadow = useColorModeValue(
-    '0px 18px 40px rgba(112, 144, 176, 0.12)',
-    'unset'
-  )
-  const brandColor = useColorModeValue('brand.500', 'white')
+    "0px 18px 40px rgba(112, 144, 176, 0.12)",
+    "unset"
+  );
+  const brandColor = useColorModeValue("brand.500", "white");
   const textColorPrimaryBgBrand = useColorModeValue(
-    'white',
-    'secondaryGray.900'
-  )
-  const textColorBrand = useColorModeValue('brand.500', 'white')
+    "white",
+    "secondaryGray.900"
+  );
+  const textColorBrand = useColorModeValue("brand.500", "white");
 
   // Plans
   const basicPlan: Plan = {
-    id: '1',
-    name: 'tmpLLM v3.5',
+    id: "1",
+    name: "tmpLLM v3.5",
     fee: 0.01,
     details: [
-      'Pay with stable coin',
-      'Collaborative workspace',
-      'Invite up to 10 guests',
-      'Web3 tools integrations'
+      "Pay with stable coin",
+      "Collaborative workspace",
+      "Invite up to 10 guests",
+      "Web3 tools integrations",
     ],
     isMostPopular: false,
-    image: 'basic-plan.jpg',
-    buttonLabel: 'Select',
-    planKey: stringToBigNumberHash('tmpLLM v3.5')
-  }
+    image: "basic-plan.jpg",
+    buttonLabel: "Select",
+    planKey: stringToBigNumberHash("tmpLLM v3.5"),
+  };
 
   const proPlan: Plan = {
-    id: '2',
-    name: 'tmpLLM v4.0',
+    id: "2",
+    name: "tmpLLM v4.0",
     fee: 0.05,
     details: [
-      'Pay with stable coin or native token',
-      'Collaborative workspace',
-      'Invite up to 10 guests',
-      'Web3 tools integrations',
-      'Email support',
-      'Discount after 1 years'
+      "Pay with stable coin or native token",
+      "Collaborative workspace",
+      "Invite up to 10 guests",
+      "Web3 tools integrations",
+      "Email support",
+      "Discount after 1 years",
     ],
     isMostPopular: true,
-    image: 'pro-plan.jpg',
-    buttonLabel: 'Select',
-    planKey: stringToBigNumberHash('tmpLLM v4.0')
-  }
+    image: "pro-plan.jpg",
+    buttonLabel: "Select",
+    planKey: stringToBigNumberHash("tmpLLM v4.0"),
+  };
 
   const enterprisePlan: Plan = {
-    id: '3',
-    name: 'tmpLLM v5.0',
+    id: "3",
+    name: "tmpLLM v5.0",
     fee: 1,
     details: [
-      'Pay with stable coin or native token',
-      'Collaborative workspace',
-      'Invite up to 10 guests',
-      'Web3 tools integrations',
-      'Email support',
-      'SSO/SAML Login',
-      'Onboarding Support',
-      'Discount after 1 years'
+      "Pay with stable coin or native token",
+      "Collaborative workspace",
+      "Invite up to 10 guests",
+      "Web3 tools integrations",
+      "Email support",
+      "SSO/SAML Login",
+      "Onboarding Support",
+      "Discount after 1 years",
     ],
     isMostPopular: false,
-    image: 'enterprise-plan.jpg',
-    buttonLabel: 'Select',
-    planKey: stringToBigNumberHash('tmpLLM v5.0')
-  }
+    image: "enterprise-plan.jpg",
+    buttonLabel: "Select",
+    planKey: stringToBigNumberHash("tmpLLM v5.0"),
+  };
 
-  const plans = [basicPlan, proPlan, enterprisePlan]
+  const plans = [basicPlan, proPlan, enterprisePlan];
 
   const PlanList = (
     <HStack spacing={4} alignItems="strech">
@@ -297,18 +292,18 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
               mb="50px"
               w="full"
               minW="140px"
-              mt={{ base: '20px', '2xl': 'auto' }}
+              mt={{ base: "20px", "2xl": "auto" }}
               variant="brand"
               fontWeight="500"
               onClick={() => handleSelectedPlan(plan)}
             >
-              {plan.buttonLabel ?? 'Start'}
+              {plan.buttonLabel ?? "Start"}
             </Button>
           </VStack>
         </Card>
       ))}
     </HStack>
-  )
+  );
 
   const Confirm = selectedPlan && (
     <VStack alignItems="start" w="full">
@@ -404,7 +399,7 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
           mb="50px"
           w="full"
           minW="140px"
-          mt={{ base: '20px', '2xl': 'auto' }}
+          mt={{ base: "20px", "2xl": "auto" }}
           variant="brand"
           fontWeight="500"
           isDisabled={!checkTerms}
@@ -413,7 +408,7 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
         </Button>
       </VStack>
     </VStack>
-  )
+  );
 
   const Approve = selectedPlan && (
     <VStack alignItems="start" w="full">
@@ -472,7 +467,7 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
           mb="50px"
           w="full"
           minW="140px"
-          mt={{ base: '20px', '2xl': 'auto' }}
+          mt={{ base: "20px", "2xl": "auto" }}
           variant="brand"
           fontWeight="500"
           onClick={handleApproved}
@@ -481,7 +476,7 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
         </Button>
       </VStack>
     </VStack>
-  )
+  );
 
   const Applied = selectedPlan && (
     <VStack alignItems="start" w="full">
@@ -540,7 +535,7 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
           mb="50px"
           w="full"
           minW="140px"
-          mt={{ base: '20px', '2xl': 'auto' }}
+          mt={{ base: "20px", "2xl": "auto" }}
           variant="brand"
           fontWeight="500"
           onClick={handleApproved} // FIXME
@@ -549,26 +544,26 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
         </Button>
       </VStack>
     </VStack>
-  )
+  );
 
   const getContent = () => {
     switch (steps) {
-      case 'select':
-        return PlanList
-      case 'confirm':
-        return Confirm
-      case 'approve':
-        return Approve
-      case 'applied':
-        return Applied
+      case "select":
+        return PlanList;
+      case "confirm":
+        return Confirm;
+      case "approve":
+        return Approve;
+      case "applied":
+        return Applied;
     }
-  }
+  };
 
   return (
     <Modal isOpen={true} onClose={handleClose} isCentered>
       <ModalOverlay />
       <ModalContent
-        maxWidth={steps == 'select' ? 'container.xl' : 'container.sm'}
+        maxWidth={steps == "select" ? "container.xl" : "container.sm"}
         bg="background"
         borderColor="white"
         borderWidth={1}
@@ -599,5 +594,5 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
         <ModalBody>{getContent()}</ModalBody>
       </ModalContent>
     </Modal>
-  )
-}
+  );
+};
