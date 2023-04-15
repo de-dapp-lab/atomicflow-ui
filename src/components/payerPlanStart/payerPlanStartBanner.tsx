@@ -2,8 +2,15 @@ import Card from "@/components/card/Card";
 import { Box, Button, Flex, Text, Icon, Menu } from "@chakra-ui/react";
 import IconBox from "@/components/payerPlan/iconBox";
 import Image from "next/image";
+import { SubscriptionManager } from "@/ethers-contracts";
+import PaymentStructOutput = SubscriptionManager.PaymentStructOutput;
+import PlanStructOutput = SubscriptionManager.PlanStructOutput;
 
-export default function PayerPlanStartBanner(props: {}) {
+export default function PayerPlanStartBanner(props: {
+  payment: PaymentStructOutput;
+  plan: PlanStructOutput;
+}) {
+  const statusImg = props.payment.status ? "/img/check.png" : "/img/cancel.png";
   return (
     <Card mb={{ base: "0px", lg: "20px" }} alignItems="center">
       <Flex w="100%">
@@ -17,7 +24,7 @@ export default function PayerPlanStartBanner(props: {}) {
         w="100px"
         icon={
           <Image
-            src="/img/check.png"
+            src={statusImg}
             color="#F4F7FE"
             width="46"
             height="46"
@@ -35,7 +42,11 @@ export default function PayerPlanStartBanner(props: {}) {
         maxW={{ base: "100%", xl: "80%", "3xl": "60%" }}
         mx="auto"
       >
-        Normal. No problems have occurred.
+        {props.payment.status ? (
+          <>Normal. No problems have occurred.</>
+        ) : (
+          <>Transaction was canceled.</>
+        )}
       </Text>
       <Box w="100%" mt="auto">
         <Flex w="100%" justify="center" align="center" mb="10px"></Flex>

@@ -6,9 +6,12 @@ import PayerWalletBanner from "@/components/PayerWallet/payerWalletBanner";
 import PayerPlanBanner from "@/components/payerPlan/payerPlanBanner";
 import PayerPlanStartBanner from "@/components/payerPlanStart/payerPlanStartBanner";
 import { PayerDashboardLayout } from "@/layouts/payer";
+import { usePayerPayments } from "@/hooks/payer/usePaymentsByPayer";
+import { ethers } from "ethers";
 
 const Dashboard: NextPage = () => {
   const { address } = useAccount();
+  const { payerPayments } = usePayerPayments();
   const intmaxWalletAddress = "0x12345...abcd";
   const formatedBalance = "1000";
   const assetSymbol = "USDC";
@@ -36,15 +39,29 @@ const Dashboard: NextPage = () => {
               assetSymbol={assetSymbol}
               assetIconImg={assetSymbolImage}
             />
-            <PayerPlanBanner
-              bgImagePath={payerPlanBgImagePaht}
-              serviceName={serviceName}
-              planImagePath={planImagePaht}
-              startDate={startDate}
-              planTokenSymbol={planTokenSymbol}
-              symbolName={symbolName}
-            />
-            <PayerPlanStartBanner />
+            {payerPayments?.map((paymentPlan) => {
+              console.log(paymentPlan);
+              return (
+                <>
+                  <PayerPlanBanner
+                    bgImagePath={payerPlanBgImagePaht}
+                    serviceName={serviceName}
+                    planImagePath={planImagePaht}
+                    startDate={new Date(
+                      ethers.BigNumber.from(
+                        paymentPlan.payment.startTime
+                      ).toNumber()
+                    ).toDateString()}
+                    planTokenSymbol={planTokenSymbol}
+                    symbolName={symbolName}
+                  />
+                  <PayerPlanStartBanner
+                    payment={paymentPlan.payment}
+                    plan={paymentPlan.plan}
+                  />
+                </>
+              );
+            })}
           </SimpleGrid>
         </PayerDashboardLayout>
       )}
