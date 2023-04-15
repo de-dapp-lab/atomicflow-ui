@@ -1,5 +1,5 @@
 import "@/styles/globals.css";
-import "@rainbow-me/rainbowkit/styles.css";
+import '@rainbow-me/rainbowkit/styles.css';
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/provider";
 import theme from "@/theme/theme";
@@ -8,6 +8,7 @@ import { type Chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import Head from "next/head";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
+import {useIsClient} from "@/hooks/useIsClient";
 
 export default function App({ Component, pageProps }: AppProps) {
   const scrollAlpha: Chain = {
@@ -34,6 +35,7 @@ export default function App({ Component, pageProps }: AppProps) {
     },
     testnet: true,
   };
+
   const scrollProvider = jsonRpcProvider({
     rpc: (chain) => ({
       http: "https://alpha-rpc.scroll.io/l2",
@@ -53,23 +55,26 @@ export default function App({ Component, pageProps }: AppProps) {
     provider,
   });
 
+  const {isClient} = useIsClient()
+
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains} coolMode>
-        <ChakraProvider theme={theme}>
-          <Head>
-            <title>Atomicflow</title>
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1"
-            />
-            <meta name="theme-color" content="#4318FF" />
-          </Head>
-          <React.StrictMode>
+      <>
+      {isClient && (<WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider chains={chains} coolMode>
+          <ChakraProvider theme={theme}>
+            <Head>
+              <title>Atomicflow</title>
+              <meta
+                  name="viewport"
+                  content="width=device-width, initial-scale=1"
+              />
+              <meta name="theme-color" content="#4318FF"/>
+            </Head>
             <Component {...pageProps} />
-          </React.StrictMode>
-        </ChakraProvider>
-      </RainbowKitProvider>
-    </WagmiConfig>
+          </ChakraProvider>
+        </RainbowKitProvider>
+      </WagmiConfig>)
+    }
+    </>
   );
 }
