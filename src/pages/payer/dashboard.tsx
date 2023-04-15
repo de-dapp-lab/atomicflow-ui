@@ -19,8 +19,8 @@ const Dashboard: NextPage = () => {
   const assetSymbolImage = "/img/USDC.png";
 
   const payerPlanBgImagePaht = "/img/bg_image_payer_plan.png"
-  const serviceName = "Atomicflow"
-  const planImagePaht = "/img/basic.png"
+  const serviceName = "tmpLLMv4.0"
+  const planImagePaht = "/img/pro-plan.jpg"
   const startDate = "04/15/2023"
   const planTokenSymbol = "/img/USDC.png"
   const symbolName= "USDC"

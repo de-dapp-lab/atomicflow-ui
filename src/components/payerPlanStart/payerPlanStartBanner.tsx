@@ -15,21 +15,17 @@ export default function PayerPlanStartBanner(props: {
                 mx='auto'
                 h='100px'
                 w='100px'
-                icon={<Image src="/img/rocket.png" color="#F4F7FE" width='46' height='46' />}
+                icon={<Image src="/img/check.png" color="#F4F7FE" width='46' height='46' />}
                 bg={"#F4F7FE"}
             />
             <Text color="#2B3674" fontWeight='bold' fontSize='2xl' mt='10px'>
-                Start Subscription
+                Transaction Status
             </Text>
-            <Text color="#A3AED0
-" fontSize='md' maxW={{ base: '100%', xl: '80%', '3xl': '60%' }} mx='auto'>
-                You can start your subscription
+            <Text color="#A3AED0 " fontSize='md' maxW={{ base: '100%', xl: '80%', '3xl': '60%' }} mx='auto'>
+                Normal. No problems have occurred.
             </Text>
             <Box w='100%' mt='auto'>
                 <Flex w='100%' justify='center' align='center' mb='10px' >
-                    <Button w='80%' bgColor="#4318FF" color="white" >
-                        Start
-                    </Button>
                 </Flex>
             </Box>
         </Card>
