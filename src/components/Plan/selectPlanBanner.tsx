@@ -17,7 +17,7 @@ export default function SelectPlanBanner(props: {
             props.useSelectPlan("Basic Plan")
             props.usePlanName("Basic Plan")
             props.useMaxMember(5)
-            props.useAmountPerMonth(8)
+            props.useAmountPerMonth(0.03)
         }else{
             props.useSelectPlan("")
         }
@@ -28,7 +28,7 @@ export default function SelectPlanBanner(props: {
             props.useSelectPlan("Pro Plan")
             props.usePlanName("Pro Plan")
             props.useMaxMember(15)
-            props.useAmountPerMonth(10)
+            props.useAmountPerMonth(0.05)
         }else{
             props.useSelectPlan("")
         }
@@ -39,7 +39,7 @@ export default function SelectPlanBanner(props: {
             props.useSelectPlan("Enterprise Plan")
             props.usePlanName("Enterprise Plan")
             props.useMaxMember(20)
-            props.useAmountPerMonth(15)
+            props.useAmountPerMonth(1)
         }else{
             props.useSelectPlan("")
         }
@@ -62,14 +62,14 @@ export default function SelectPlanBanner(props: {
                     <Image 
                         boxSize='80px'
                         objectFit='cover'
-                        src="/img/basic.png"
+                        src="/img/basic-plan.jpg"
                     />
                     <Box p={4}>
                         <Text color="#2B3674" fontSize="16px" >
                             Basic Plan
                         </Text>
                         <Text color="#A3AED0" fontSize="14px" >
-                            8$ per user / month
+                            $0.03 per user / minute
                         </Text>
                     </Box>
                 </Flex>
@@ -79,14 +79,14 @@ export default function SelectPlanBanner(props: {
                     <Image 
                         boxSize='80px'
                         objectFit='cover'
-                        src="/img/pro.png"
+                        src="/img/pro-plan.jpg"
                     />
                     <Box p={4}>
                         <Text color="#2B3674" fontSize="16px">
                         Pro Plan
                         </Text>
                         <Text color="#A3AED0" fontSize="14px" >
-                        15$ per user / month
+                            $0.05 per user / minute
                         </Text>
                     </Box>
                 </Flex>
@@ -96,14 +96,14 @@ export default function SelectPlanBanner(props: {
                     <Image 
                         boxSize='80px'
                         objectFit='cover'
-                        src="/img/enterprise.png"
+                        src="/img/enterprise-plan.jpg"
                     />
                     <Box p={4}>
                         <Text color="#2B3674" fontSize="16px">
                         Enterprise Plan
                         </Text>
                         <Text color="#A3AED0" fontSize="14px" >
-                        20$ per user / month
+                            $1 per user / minute
                         </Text>
                     </Box>
                 </Flex>

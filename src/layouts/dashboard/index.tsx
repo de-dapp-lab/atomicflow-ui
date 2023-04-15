@@ -11,18 +11,18 @@ type Props = {
   children: ReactNode
 }
 
-export const DashboadLayout: FC<Props> = ({ children }) => {
+export const DashboardLayout: FC<Props> = ({ children }) => {
   const [fixed] = useState(false)
   const { onOpen } = useDisclosure()
 
   const routes: Route[] = [
     {
-      name: 'Dashboad',
+      name: 'Dashboard',
       layout: '/admin',
       component: <></>,
       icon: <></>,
       secondary: false,
-      path: '/dashboad'
+      path: '/dashboard'
     },
     {
       name: 'Plan',

@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 const In: NextPage = () => {
     useEffect(() => {
-        document.location = '/dashboad'
+        document.location = '/dashboard'
     }, [])
     return(<></>)
 }

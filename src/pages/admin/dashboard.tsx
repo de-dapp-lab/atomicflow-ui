@@ -2,11 +2,11 @@ import { NextPage } from 'next'
 import { useEffect } from 'react';
 
 
-const Dashboad: NextPage = () => {
+const Dashboard: NextPage = () => {
     useEffect(() => {
-        document.location = '/dashboad'
+        document.location = '/dashboard'
     }, [])
     return(<></>)
 }
 
-export default Dashboad
+export default Dashboard
