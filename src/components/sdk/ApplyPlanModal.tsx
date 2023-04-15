@@ -157,8 +157,7 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
             "0x0e4311e922f0ba679ea202b3870f036b8ea40dee4eaa0babc83c84fd663e5d98",
             ethers.BigNumber.from(address)
         )
-        setSteps('applied')
-
+        window.location.href = 'payer/dashboard';
     } catch (e) {
         if (e instanceof Error) {
             throw e
@@ -378,7 +377,7 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
               alt={selectedPlan.name}
               h="80px"
               w="80px"
-              src={`/images/${selectedPlan.image}`}
+              src={`/img/${selectedPlan.image}`}
               borderRadius="8px"
               me="20px"
             />
@@ -529,7 +528,7 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
               alt={selectedPlan.name}
               h="80px"
               w="80px"
-              src={`/images/${selectedPlan.image}`}
+              src={`/img/${selectedPlan.image}`}
               borderRadius="8px"
               me="20px"
             />
@@ -568,9 +567,9 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
         </Card>
 
         {/* mode wallet */}
-        <Text color={textColorPrimary} fontWeight="500" fontSize="sm">
+        {/* <Text color={textColorPrimary} fontWeight="500" fontSize="sm">
           Approve Token
-        </Text>
+        </Text> */}
 
         <Text color={textColorPrimary} fontWeight="500" fontSize="md"></Text>
 
@@ -627,7 +626,7 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
               alt={selectedPlan.name}
               h="80px"
               w="80px"
-              src={`/images/${selectedPlan.image}`}
+              src={`/img/${selectedPlan.image}`}
               borderRadius="8px"
               me="20px"
             />
@@ -666,9 +665,9 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
         </Card>
 
         {/* mode wallet */}
-        <Text color={textColorPrimary} fontWeight="500" fontSize="sm">
+        {/* <Text color={textColorPrimary} fontWeight="500" fontSize="sm">
           testset Token
-        </Text>
+        </Text> */}
 
         <Text color={textColorPrimary} fontWeight="500" fontSize="md"></Text>
 
@@ -684,7 +683,7 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
         >
           Start Subscription
         </Button>
-        <Button
+        {/* <Button
           me="100%"
           mb="50px"
           w="full"
@@ -707,7 +706,7 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
           onClick={getAllPayment}
         >
           getAllPayment
-        </Button>
+        </Button> */}
 
       </VStack>
     </VStack>

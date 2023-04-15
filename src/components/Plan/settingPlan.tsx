@@ -59,16 +59,16 @@ export default function SettingPlan(props: {
     props.useAmountPerMonth(e.target.value);
   };
 
-  const onClickSubmit = async () => {
-    if (isDisconnected) {
-      return;
-    }
-    const myPlan: PlanStruct = {
-      planKey: stringToBigNumberHash(props.planName),
-      amountPerMonth: props.amountPerMonth,
-      receiverWallet: ethers.BigNumber.from(address),
-      maxMember: props.maxMember,
-    };
+    const onClickSubmit = async () => {
+        if (isDisconnected){
+            return;
+        }
+        const myPlan: PlanStruct = {
+            planKey: stringToBigNumberHash(props.planName),
+            amountPerMonth: Math.floor(props.amountPerMonth * 1000),
+            receiverWallet: ethers.BigNumber.from(address),
+            maxMember: props.maxMember
+          };
 
     try {
       await subscriptionManager?.createPlan(myPlan);
