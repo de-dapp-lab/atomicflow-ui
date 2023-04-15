@@ -6,36 +6,36 @@ import {
   List,
   ListItem,
   Text,
-  useColorModeValue
-} from '@chakra-ui/react'
-import { FC } from 'react'
+  useColorModeValue,
+} from "@chakra-ui/react";
+import { FC } from "react";
 
 export const Footer: FC<{}> = () => {
-  const textColor = useColorModeValue('gray.400', 'white')
+  const textColor = useColorModeValue("gray.400", "white");
   return (
     <Flex
       zIndex="3"
       flexDirection={{
-        base: 'column',
-        xl: 'row'
+        base: "column",
+        xl: "row",
       }}
       alignItems={{
-        base: 'center',
-        xl: 'start'
+        base: "center",
+        xl: "start",
       }}
       justifyContent="space-between"
-      px={{ base: '30px', md: '50px' }}
+      px={{ base: "30px", md: "50px" }}
       pb="30px"
     >
       <Text
         color={textColor}
         textAlign={{
-          base: 'center',
-          xl: 'start'
+          base: "center",
+          xl: "start",
         }}
-        mb={{ base: '20px', xl: '0px' }}
+        mb={{ base: "20px", xl: "0px" }}
       >
-        {' '}
+        {" "}
         &copy; {new Date().getFullYear()}
         <Text as="span" fontWeight="500" ms="4px">
           Atomicflow. All Rights Reserved.
@@ -44,8 +44,8 @@ export const Footer: FC<{}> = () => {
       <List display="flex">
         <ListItem
           me={{
-            base: '20px',
-            md: '44px'
+            base: "20px",
+            md: "44px",
           }}
         >
           <Link
@@ -58,8 +58,8 @@ export const Footer: FC<{}> = () => {
         </ListItem>
         <ListItem
           me={{
-            base: '20px',
-            md: '44px'
+            base: "20px",
+            md: "44px",
           }}
         >
           <Link
@@ -72,8 +72,8 @@ export const Footer: FC<{}> = () => {
         </ListItem>
         <ListItem
           me={{
-            base: '20px',
-            md: '44px'
+            base: "20px",
+            md: "44px",
           }}
         >
           <Link
@@ -95,5 +95,5 @@ export const Footer: FC<{}> = () => {
         </ListItem>
       </List>
     </Flex>
-  )
-}
+  );
+};

@@ -1,45 +1,45 @@
 /* eslint-disable */
 
 // chakra imports
-import { Box, Flex, HStack, Text, useColorModeValue } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
-import { Route } from '@/model/navigation'
-import { FC } from 'react'
+import { Box, Flex, HStack, Text, useColorModeValue } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import { Route } from "@/model/navigation";
+import { FC } from "react";
 
 interface Props {
-  routes: Route[]
+  routes: Route[];
 }
 
 export const SidebarLinks: FC<Props> = ({ routes }) => {
   //   Chakra color mode
-  const router = useRouter()
+  const router = useRouter();
 
-  let activeColor = useColorModeValue('gray.700', 'white')
+  let activeColor = useColorModeValue("gray.700", "white");
   let inactiveColor = useColorModeValue(
-    'secondaryGray.600',
-    'secondaryGray.600'
-  )
-  let activeIcon = useColorModeValue('brand.500', 'white')
-  let textColor = useColorModeValue('secondaryGray.500', 'white')
-  let brandColor = useColorModeValue('brand.500', 'brand.400')
+    "secondaryGray.600",
+    "secondaryGray.600"
+  );
+  let activeIcon = useColorModeValue("brand.500", "white");
+  let textColor = useColorModeValue("secondaryGray.500", "white");
+  let brandColor = useColorModeValue("brand.500", "brand.400");
 
   // verifies if routeName is the one active (in browser input)
   const activeRoute = (routeName: string) => {
-    return router.pathname.includes(routeName)
-  }
+    return router.pathname.includes(routeName);
+  };
 
   // this function creates the links from the secondary accordions (for example auth -> sign-in -> default)
   const createLinks = (routes: Route[]) => {
     return routes.map((route, index: number) => {
-      if (route.layout === '/admin') {
+      if (route.layout === "/admin") {
         return (
           <Link key={index} href={route.layout + route.path}>
             {route.icon ? (
               <Box>
                 <HStack
                   spacing={
-                    activeRoute(route.path.toLowerCase()) ? '22px' : '26px'
+                    activeRoute(route.path.toLowerCase()) ? "22px" : "26px"
                   }
                   py="5px"
                   ps="10px"
@@ -64,8 +64,8 @@ export const SidebarLinks: FC<Props> = ({ routes }) => {
                       }
                       fontWeight={
                         activeRoute(route.path.toLowerCase())
-                          ? 'bold'
-                          : 'normal'
+                          ? "bold"
+                          : "normal"
                       }
                     >
                       {route.name}
@@ -77,7 +77,7 @@ export const SidebarLinks: FC<Props> = ({ routes }) => {
                     bg={
                       activeRoute(route.path.toLowerCase())
                         ? brandColor
-                        : 'transparent'
+                        : "transparent"
                     }
                     borderRadius="5px"
                   />
@@ -87,7 +87,7 @@ export const SidebarLinks: FC<Props> = ({ routes }) => {
               <Box>
                 <HStack
                   spacing={
-                    activeRoute(route.path.toLowerCase()) ? '22px' : '26px'
+                    activeRoute(route.path.toLowerCase()) ? "22px" : "26px"
                   }
                   py="5px"
                   ps="10px"
@@ -100,7 +100,7 @@ export const SidebarLinks: FC<Props> = ({ routes }) => {
                         : inactiveColor
                     }
                     fontWeight={
-                      activeRoute(route.path.toLowerCase()) ? 'bold' : 'normal'
+                      activeRoute(route.path.toLowerCase()) ? "bold" : "normal"
                     }
                   >
                     {route.name}
@@ -110,10 +110,10 @@ export const SidebarLinks: FC<Props> = ({ routes }) => {
               </Box>
             )}
           </Link>
-        )
+        );
       }
-    })
-  }
+    });
+  };
   //  BRAND
-  return <>{createLinks(routes)}</>
-}
+  return <>{createLinks(routes)}</>;
+};
