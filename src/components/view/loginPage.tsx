@@ -1,8 +1,10 @@
-import { FC } from "react";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import {FC} from "react";
+import {ConnectButton} from "@rainbow-me/rainbowkit";
 
-const LoginPage: FC<{}> = () => {
-  return <ConnectButton />;
-};
+const LoginPage:FC<{}> = () => {
+    return (
+        <ConnectButton />
+    )
+}
 
-export default LoginPage;
+export default LoginPage

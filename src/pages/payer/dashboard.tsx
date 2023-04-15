@@ -1,24 +1,27 @@
 import { NextPage } from "next";
-import exp from "constants";
 import { useAccount } from "wagmi";
 import LoginPage from "@/components/view/loginPage";
+import {ConnectButton} from "@rainbow-me/rainbowkit";
+import {useRouter} from "next/router";
 
 const Dashboard: NextPage = () => {
   const { address } = useAccount();
 
-  console.log(address);
-  if (address === undefined) {
-    return (
-      <>
-        <LoginPage />
-      </>
-    );
+  if ( address ) {
+      return (
+          <LoginPage />
+      )
   }
+
   return (
-    <>
-      <div>dashboard</div>
-    </>
+      <>
+        <ConnectButton/>
+      </>
   );
 };
+
+Dashboard.getInitialProps = async () => {
+    return {}
+}
 
 export default Dashboard;
