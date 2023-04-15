@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 const Profile: NextPage = () => {
     useEffect(() => {
-        document.location = '/dashboad'
+        document.location = '/dashboard'
     }, [])
     return(<></>)
 }

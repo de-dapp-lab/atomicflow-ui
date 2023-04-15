@@ -11,54 +11,23 @@ type Props = {
   children: ReactNode
 }
 
-export const PlanLayout: FC<Props> = ({ children }) => {
+export const AdminLayout: FC<Props> = ({ children }) => {
   const [fixed] = useState(false)
   const { onOpen } = useDisclosure()
 
   const routes: Route[] = [
     {
-      name: 'Plan',
-      layout: '/plan',
-      component: <></>,
-      icon: <></>,
-      secondary: false,
-      path: '/plan'
-    },
-    {
-      name: 'Dashboard',
+      name: 'test',
       layout: '/admin',
       component: <></>,
       icon: <></>,
       secondary: false,
-      path: '/dashboard'
-    },
-    {
-      name: 'Plan',
-      layout: '/admin',
-      component: <></>,
-      icon: <></>,
-      secondary: true,
-      path: '/plan'
-    },
-    {
-      name: 'Profile',
-      layout: '/admin',
-      component: <></>,
-      icon: <></>,
-      secondary: true,
-      path: '/Profile'
-    },
-    {
-      name: 'Sign In',
-      layout: '/admin',
-      component: <></>,
-      icon: <></>,
-      secondary: true,
-      path: '/Sign In'
+      path: '/'
     }
   ]
 
   const [currentRoute, setCurrentRoute] = useState(routes[0])
+
   return (
     <Box>
       <Sidebar routes={routes} />

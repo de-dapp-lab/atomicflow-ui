@@ -1,6 +1,19 @@
 // Chakra imports
-import { Box, Button, Flex, Link, Text,Image, Input, Select, Switch } from '@chakra-ui/react';
+import { Box, Button, Flex, Link, Text, Image, Input, Select, Switch } from '@chakra-ui/react';
 import { useState } from 'react';
+
+import { useAccount } from 'wagmi'
+import { ethers } from 'ethers';
+import stringToBigNumberHash from '@/hooks/ethers';
+import { useContract } from '@/hooks/useContract';
+
+
+interface PlanStruct {
+    planKey: ethers.BigNumber;
+    amountPerMonth: number;
+    receiverWallet: ethers.BigNumber;
+    maxMember: number;
+  }
 
 export default function SettingPlan(props: {
     selectPlan:string ,
@@ -13,12 +26,13 @@ export default function SettingPlan(props: {
     useAmountPerMonth:any
 }) {
 
-    const [selectInterval,useSelectInterval] = useState("1 hour")
+    const { address, isConnecting, isDisconnected } = useAccount()
 
     const [isTrial,useIsTrial] = useState(false)
     const [isSales,useIsSales] = useState(false)
     const [isDisplayPopular,useIsDisplayPopular] = useState(false)
     const [isDisplayCustom,useIsDisplayCustom] = useState(false)
+    const { subscriptionManager } = useContract()
 
 
     const onChangePlanName = (e:any) =>{
@@ -36,8 +50,26 @@ export default function SettingPlan(props: {
         props.useAmountPerMonth(e.target.value)
     }
 
-    const onClickSubmit = () => {
-        window.location.href = '/dashboad';
+    const onClickSubmit = async () => {
+        if (isDisconnected){
+            return;
+        }
+        const myPlan: PlanStruct = {
+            planKey: stringToBigNumberHash(props.planName),
+            amountPerMonth: props.amountPerMonth,
+            receiverWallet: ethers.BigNumber.from(address),
+            maxMember: props.maxMember
+          };
+
+        try {
+            await subscriptionManager?.createPlan(myPlan)
+        } catch (e) {
+            if (e instanceof Error) {
+                throw e
+            }
+            console.log(e)
+        }
+        window.location.href = '/dashboard';
     }
 
     // 下見せるため
@@ -105,7 +137,7 @@ export default function SettingPlan(props: {
             </Flex>
         </Box>
         <Flex align="end" p={4}>
-            <Button onClick={onClickSubmit}>Subbmit Plan</Button>
+            <Button onClick={onClickSubmit}>Submit Plan</Button>
         </Flex>
         </>
 	);

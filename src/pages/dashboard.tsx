@@ -1,5 +1,5 @@
 import { NextPage } from 'next'
-import { DashboadLayout } from '@/layouts/dashboad'
+import { DashboardLayout } from '@/layouts/dashboard'
 import ComplexTable from '@/components/complexTable/ComplexTable'
 import { SimpleGrid } from '@chakra-ui/react'
 import { useEffect, useState } from 'react';
@@ -185,7 +185,7 @@ export const barChartOptionsConsumption: any = {
 	}
 };
 
-const Dashboad: NextPage = () => {
+const Dashboard: NextPage = () => {
 
 	const { address } = useAccount();
 
@@ -215,7 +215,7 @@ const Dashboad: NextPage = () => {
     return (
 		<>
 			{ address === undefined && <LoginPage/> }
-			{ address !== undefined && (<DashboadLayout >
+			{ address !== undefined && (<DashboardLayout >
 				<br></br>
 				<br></br>
 				<br></br>
@@ -236,10 +236,10 @@ const Dashboad: NextPage = () => {
 						</>
 					)
 				}
-			</DashboadLayout>
+			</DashboardLayout>
 			)}
 		</>
     )
 }
 
-export default Dashboad
+export default Dashboard
