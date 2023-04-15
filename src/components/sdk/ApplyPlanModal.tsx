@@ -27,6 +27,7 @@ import { CustomCardProps } from '@/theme/theme';
 import { ethers } from 'ethers';
 import { useContract } from '@/hooks/useContract'
 import {useAccount} from "wagmi";
+import stringToBigNumberHash from "@/hooks/ethers";
 
 
 const Card = forwardRef<CustomCardProps, 'div'>((props, ref) => {
@@ -44,6 +45,7 @@ type Plan = {
   isMostPopular: boolean
   image: string
   buttonLabel?: string
+  planKey: ethers.BigNumber
 }
 
 type Step = 'select' | 'approve' | 'confirm' | 'applied'
@@ -101,34 +103,6 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
     }
   }, [address]);
 
-  const debugCreatePlan = async () => {
-    if (!subscriptionManager) {
-      throw new Error('subscriptionManager instance is required')
-    }
-
-    interface PlanStruct {
-      planKey: number;
-      amountPerMonth: number;
-      receiverWallet: number;
-      maxMember: number;
-    }
-
-    const myPlan: PlanStruct = {
-      planKey: 1,
-      amountPerMonth: 1,
-      receiverWallet: 1,
-      maxMember: 1
-    };
-
-    try {
-      console.log(await subscriptionManager?.getAllPlans());
-    } catch (e) {
-      if (e instanceof Error) {
-        throw e
-      }
-      console.log(e)
-    }
-  }
 
   const getAllPayment = async () => {
     if (!subscriptionManager) {
@@ -154,8 +128,8 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
 
     try {
         await subscriptionManager?.startPayment(
-            "0x0e4311e922f0ba679ea202b3870f036b8ea40dee4eaa0babc83c84fd663e5d98",
-            ethers.BigNumber.from(address)
+          ethers.BigNumber.from((selectedPlan?.planKey)),
+          ethers.BigNumber.from(address)
         )
         window.location.href = 'payer/dashboard';
     } catch (e) {
@@ -164,39 +138,7 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
         }
         console.log(e)
     }
-}
-  
-
-//   const handleApproved = useCallback(() => {
-//     if (!subscriptionManager) {
-//         throw new Error('subscriptionManager instance is required')
-//     }
-
-//     interface PlanStruct {
-//     planKey: number;
-//     amountPerMonth: number;
-//     receiverWallet: number;
-//     maxMember: number;
-//     }
-
-//     const myPlan: PlanStruct = {
-//     planKey: 1,
-//     amountPerMonth: 1,
-//     receiverWallet: 1,
-//     maxMember: 1
-//     };
-
-//     try {
-//     console.log(await subscriptionManager?.getAllPlans());
-//     } catch (e) {
-//     if (e instanceof Error) {
-//         throw e
-//     }
-//     console.log(e)
-//     }
-
-//     setSteps('applied')
-//   }, [mode])
+  }
 
   // Theme
   const textColorPrimary = useColorModeValue('secondaryGray.900', 'white')
@@ -226,7 +168,8 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
     ],
     isMostPopular: false,
     image: 'basic-plan.jpg',
-    buttonLabel: 'Select'
+    buttonLabel: 'Select',
+    planKey: stringToBigNumberHash('tmpLLM v3.5')
   }
 
   const proPlan: Plan = {
@@ -243,7 +186,8 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
     ],
     isMostPopular: true,
     image: 'pro-plan.jpg',
-    buttonLabel: 'Select'
+    buttonLabel: 'Select',
+    planKey: stringToBigNumberHash('tmpLLM v4.0')
   }
 
   const enterprisePlan: Plan = {
@@ -262,7 +206,8 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
     ],
     isMostPopular: false,
     image: 'enterprise-plan.jpg',
-    buttonLabel: 'Select'
+    buttonLabel: 'Select',
+    planKey: stringToBigNumberHash('tmpLLM v5.0')
   }
 
   const plans = [basicPlan, proPlan, enterprisePlan]
@@ -415,21 +360,6 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
           </HStack>
         </Card>
 
-        {/* Todo: あとでmailとwalletで分ける */}
-        {/* <VStack alignItems="start" w="full">
-          <Text color={textColorPrimary} fontWeight="500" fontSize="sm">
-            Email*
-          </Text>
-          <Input
-            fontWeight="500"
-            variant="main"
-            placeholder={'email@atomicflow.com'}
-            _placeholder={{ fontWeight: '400', color: 'secondaryGray.600' }}
-            h="44px"
-            maxH="44px"
-          />
-        </VStack> */}
-
         <Center w="full" py={2}>
           <HStack>
             <Checkbox
@@ -468,7 +398,7 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
           </HStack>
         </Center>
 
-        {/* Todo: あとでmailとwalletで分ける */}
+        {/* mailとwalletで分ける */}
         <Button
           me="100%"
           mb="50px"
@@ -481,37 +411,6 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
         >
           <ConnectButton />
         </Button>
-
-        {/* Todo: 本当は自動で進むようにしたい */}
-        {/* <Button
-          me="100%"
-          mb="50px"
-          w="full"
-          minW="140px"
-          mt={{ base: '20px', '2xl': 'auto' }}
-          variant="brand"
-          fontWeight="500"
-          onClick={handleConfirm}
-          isDisabled={!checkTerms}
-        >
-          Start
-        </Button> */}
-
-        {/* Todo: 削除 */}
-        {/* <Button
-          me="100%"
-          mb="50px"
-          w="full"
-          minW="140px"
-          mt={{ base: '20px', '2xl': 'auto' }}
-          variant="brand"
-          fontWeight="500"
-          onClick={handleDemo}
-        >
-          go to applied
-        </Button>
- */}
-
       </VStack>
     </VStack>
   )
@@ -566,11 +465,6 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
           </HStack>
         </Card>
 
-        {/* mode wallet */}
-        {/* <Text color={textColorPrimary} fontWeight="500" fontSize="sm">
-          Approve Token
-        </Text> */}
-
         <Text color={textColorPrimary} fontWeight="500" fontSize="md"></Text>
 
         <Button
@@ -581,35 +475,10 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
           mt={{ base: '20px', '2xl': 'auto' }}
           variant="brand"
           fontWeight="500"
-          onClick={handleApproved} // FIXME
+          onClick={handleApproved}
         >
           Start Subscription
         </Button>
-        {/* <Button
-          me="100%"
-          mb="50px"
-          w="full"
-          minW="140px"
-          mt={{ base: '20px', '2xl': 'auto' }}
-          variant="brand"
-          fontWeight="500"
-          onClick={debugCreatePlan}
-        >
-          getAllPlan
-        </Button>
-        <Button
-          me="100%"
-          mb="50px"
-          w="full"
-          minW="140px"
-          mt={{ base: '20px', '2xl': 'auto' }}
-          variant="brand"
-          fontWeight="500"
-          onClick={getAllPayment}
-        >
-          getAllPayment
-        </Button> */}
-
       </VStack>
     </VStack>
   )
@@ -664,11 +533,6 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
           </HStack>
         </Card>
 
-        {/* mode wallet */}
-        {/* <Text color={textColorPrimary} fontWeight="500" fontSize="sm">
-          testset Token
-        </Text> */}
-
         <Text color={textColorPrimary} fontWeight="500" fontSize="md"></Text>
 
         <Button
@@ -683,31 +547,6 @@ export const ApplyPlanModal: FC<Props> = ({ mode }) => {
         >
           Start Subscription
         </Button>
-        {/* <Button
-          me="100%"
-          mb="50px"
-          w="full"
-          minW="140px"
-          mt={{ base: '20px', '2xl': 'auto' }}
-          variant="brand"
-          fontWeight="500"
-          onClick={debugCreatePlan}
-        >
-          getAllPlan
-        </Button>
-        <Button
-          me="100%"
-          mb="50px"
-          w="full"
-          minW="140px"
-          mt={{ base: '20px', '2xl': 'auto' }}
-          variant="brand"
-          fontWeight="500"
-          onClick={getAllPayment}
-        >
-          getAllPayment
-        </Button> */}
-
       </VStack>
     </VStack>
   )
