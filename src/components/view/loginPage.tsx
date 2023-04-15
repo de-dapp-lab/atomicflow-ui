@@ -57,7 +57,8 @@ const LoginPage:FC<{}> = () => {
                 mb={{ base: "30px", md: "60px" }}
                 px={{ base: "25px", md: "0px" }}
                 mt={{ base: "40px", md: "14vh" }}
-                flexDirection='column'>
+                flexDirection='column'
+            >
                 <Box me='auto'>
                     <Heading color={textColor} fontSize='36px' mb='10px'>
                         Wallet Connect
