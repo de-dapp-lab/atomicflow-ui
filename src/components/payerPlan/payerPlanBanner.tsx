@@ -18,7 +18,7 @@ export default function PayerPlanBanner( props: {
                     >
                     <GridItem colSpan={6}>
                         <Box bgImage={props.bgImagePath} bgSize='cover' borderRadius='16px' h='131px' w='100%' alignItems="center" >
-                            <Text color="white" fontSize="64px" alignContent="center">
+                            <Text color="white" fontSize="64px" align="center">
                                 {props.serviceName}
                             </Text>
                         </Box>
@@ -26,7 +26,7 @@ export default function PayerPlanBanner( props: {
                     <GridItem>
                         <Image boxSize="80px" width={80} height={80} src={props.planImagePath} alt={"plan"}/>
                     </GridItem>
-                    <GridItem colSpan={2} rowSpan={2}>
+                    <GridItem colSpan={2} rowSpan={2} >
                         <Text color="#A3AED0">Start: {props.startDate}</Text>
                         <Text color="#A3AED0">Pay with</Text>
                     </GridItem>
